@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>待ち行列観察</title>
+    <style>
+        button {
+            font-size: 20px;
+        }
+        p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>待ち行列観察</h1>
+    <button onclick="start()">計測開始</button>
+
+    <p>
+        <span>人数:</span>
+        <span class="in_length">0</span>
+        <span>入る平均(秒):</span>
+        <span class="in_value"></span>
+    </p>
+    <p>
+        <span>人数:</span>
+        <span class="out_length">0</span>
+        <span>並ぶ平均(秒):</span>
+        <span class="out_value"></span>
+    </p>
+    <button onclick="r_in()">ヒトが入る</button>
+    <button onclick="r_out()">ヒトが並ぶ</button>
+    <script>
+        let in_arr = [];
+        let out_arr = [];
+        let start_time;
+
+        function averageDifference(arr) {
+            let totalDifference = 0;
+            for (let i = 0; i < arr.length - 1; i++) {
+                totalDifference += Math.abs(arr[i + 1] - arr[i]); // 差を絶対値で計算
+            }
+
+            let average = totalDifference / (arr.length - 1);
+            return average;
+        }
+
+        function start() {
+            in_arr.push(
+                new Date().getTime()
+            )
+            out_arr.push(
+                new Date().getTime()
+            )
+            document.querySelector(".in_value").innerHTML = 0
+            document.querySelector(".out_value").innerHTML = 0
+        }
+
+        function r_in() {
+            in_arr.push(
+                new Date().getTime()
+            )
+            document.querySelector(".in_value").innerHTML = averageDifference(in_arr) / 1000
+            document.querySelector(".in_length").innerHTML = in_arr.length - 1
+        }
+
+        function r_out() {
+            out_arr.push(
+                new Date().getTime()
+            )
+            document.querySelector(".out_length").innerHTML = out_arr.length - 1
+            document.querySelector(".out_value").innerHTML = averageDifference(out_arr) / 1000
+        }
+    </script>
+</body>
+
+</html>
